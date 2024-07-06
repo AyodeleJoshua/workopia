@@ -1,0 +1,2 @@
+<?php
+loadView('404');
