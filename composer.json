@@ -1,10 +1,10 @@
 {
-  "name": "bradtraversy/workopia-php",
+  "name": "joshua/workopia-php",
   "description": "Job listing application",
   "authors": [
     {
-      "name": "Brad Traversy",
-      "email": "support@traversymedia.com"
+      "name": "Joshua Ayodele",
+      "email": "jayodele64@gmail.com"
     }
   ],
   "autoload": {
