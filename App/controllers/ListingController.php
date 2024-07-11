@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Framework\Database;
+use Framework\Validation;
 
 class ListingController
 {
@@ -54,7 +55,7 @@ class ListingController
     $listing = $this->db->query('SELECT * FROM listings WHERE id = :id', $params)->fetch();
 
     // Check if listing exists
-    if(!$listing) {
+    if (!$listing) {
       ErrorController::notFound('Listing not found!');
       return;
     }
@@ -62,5 +63,37 @@ class ListingController
     loadView('listings/show', [
       'listing' => $listing
     ]);
+  }
+
+  /**
+   * Store data in database
+   * @return void
+   */
+  public function store()
+  {
+    $allowedFields = ['title', 'description', 'salary', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email', 'requirements', 'benefits'];
+
+    $newListingData = array_intersect_key($_POST, array_flip($allowedFields));
+
+    $newListingData['user_id'] = 1;
+
+    $newListingData = array_map('sanitize', $newListingData);
+
+    $requiredFields = ['title', 'description', 'email', 'state'];
+
+    $errors = [];
+
+    foreach ($requiredFields as $field) {
+      if (empty($newListingData[$field]) || !Validation::string($newListingData[$field])) {
+        $errors[$field] = ucfirst($field) . ' is required';
+      }
+    }
+
+    if (!empty($errors)) {
+      // Reload view with errors
+      loadView('listings/create', ['errors' => $errors, 'listing' => $newListingData]);
+    } else {
+      // Submit data
+    }
   }
 }
