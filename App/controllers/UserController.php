@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Framework\Database;
 use Framework\Validation;
+use Framework\Session;
 
 class UserController
 {
@@ -93,7 +94,17 @@ class UserController
 
         $this->db->query("INSERT INTO users (name, email, password, city, state) VALUES (:name, :email, :password, :city, :state)", $params);
 
-        redirect('/listings/login');
+        // Get new user ID
+        $userId = $this->db->conn->lastInsertId();
 
+        Session::set('user', [
+            'id' => $userId,
+            'name' => $name,
+            'email' => $email,
+            'city' => $city,
+            'state' => $state
+        ]);
+
+        redirect('/');
     }
 }
