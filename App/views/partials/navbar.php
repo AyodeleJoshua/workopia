@@ -13,7 +13,7 @@ use Framework\Session;
                     <div>
                         Welcome, <?= Session::get('user')['name'] ?>
                     </div>
-                    <form action="/auth/logout" method="post">
+                    <form action="/auth/logout" method="POST">
                         <button type="submit" class="text-white inline hover:underline">Logout</button>
                     </form>
                     <a href="/listings/create"
